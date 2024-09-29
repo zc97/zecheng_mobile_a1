@@ -51,7 +51,9 @@ export default function App() {
         : null
       }
       {currentScreen == 'Game' ? 
-        <Game>
+        <Game 
+          number = {userData.phone[9]}
+        >
         </Game> 
         : null
       }
