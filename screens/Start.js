@@ -63,60 +63,62 @@ export default function Start({registerPressed}) {
       <SafeAreaView style={styles.container}>
         <Text style={styles.header}>Welcome</Text>
         <View style={styles.formContainer}>
-          <Text style={styles.formText}>Name</Text>
-          <TextInput
-            style={styles.formTextInput}
-            placeholder='type your name'
-            keyboardType='defualt'
-            value={name}
-            onChangeText={handleInputName}
-          />
-          { nameError.length ? <Text> {nameError} </Text> : null}
-
-          <Text style={styles.formText}>Email Address</Text>
-          <TextInput
-            style={styles.formTextInput}
-            placeholder='type your email'
-            keyboardType='defualt'
-            value={email}
-            onChangeText={handleInputEmail}
-          />
-          { email.length ? <Text> {emailError} </Text> : null}
-
-          <Text style={styles.formText}>Phone Number</Text>
-          <TextInput
-            style={styles.formTextInput}
-            placeholder='type your phone number'
-            keyboardType='defualt' 
-            value={phone}
-            onChangeText={handleInputPhone}
-          />
-          { phone.length ? <Text> {phoneError} </Text> : null}
-
-          <View style={styles.checkboxContainer}>
-            <Checkbox
-              style={styles.checkbox}
-              value={isNotARobot}
-              onValueChange={setIsNotARobot}
+          <View style={styles.formCard}>
+            <Text style={styles.formText}>Name</Text>
+            <TextInput
+              style={styles.formTextInput}
+              placeholder='type your name'
+              keyboardType='defualt'
+              value={name}
+              onChangeText={handleInputName}
             />
-            <Text style={styles.checkText}>I am not a robot</Text>
-          </View>
+            { nameError.length ? <Text> {nameError} </Text> : null}
 
-          <View style={styles.buttonContainer}>
-            <Button 
-                title='RESET'
-                color='red'
+            <Text style={styles.formText}>Email Address</Text>
+            <TextInput
+              style={styles.formTextInput}
+              placeholder='type your email'
+              keyboardType='defualt'
+              value={email}
+              onChangeText={handleInputEmail}
+            />
+            { email.length ? <Text> {emailError} </Text> : null}
+
+            <Text style={styles.formText}>Phone Number</Text>
+            <TextInput
+              style={styles.formTextInput}
+              placeholder='type your phone number'
+              keyboardType='defualt' 
+              value={phone}
+              onChangeText={handleInputPhone}
+            />
+            { phone.length ? <Text> {phoneError} </Text> : null}
+
+            <View style={styles.checkboxContainer}>
+              <Checkbox
+                style={styles.checkbox}
+                value={isNotARobot}
+                onValueChange={setIsNotARobot}
+              />
+              <Text style={styles.checkText}>I am not a robot</Text>
+            </View>
+
+            <View style={styles.buttonContainer}>
+              <Button 
+                  title='RESET'
+                  color='red'
+                  onPress={() =>{
+                    handleReset();
+                  }}
+              />
+              <Button 
+                title='REGISTER'
+                color='blue'
                 onPress={() =>{
-                  handleReset();
+                  registerPressed(name);
                 }}
-            />
-            <Button 
-              title='REGISTER'
-              color='blue'
-              onPress={() =>{
-                registerPressed(name);
-              }}
-            />
+              />
+            </View>
           </View>
         </View>
       </SafeAreaView>
@@ -139,18 +141,20 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   formContainer:{
-    flex: 7,
+    flex: 6,
+    width: '80%',       
+  },
+  formCard:{
     backgroundColor: 'gray',
-    width: '80%',
     borderRadius: 10,        
     padding: 15,            
     marginVertical: 10,      
     marginHorizontal: 20,      
-    elevation: 5,            
+    elevation: 5,  
   },
   formText:{
     fontSize: 15,
-    marginVertical: 15,
+    marginVertical: 25,
     color: 'purple',
   },
   formTextInput:{
