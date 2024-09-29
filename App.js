@@ -9,12 +9,7 @@ import Game from './screens/Game';
 export default function App() {
   const [currentScreen, setCurrentScreen] = useState('Start');
   const [confirmVisibility, setConfirmVisibility] = useState(false);
-
-  const [userData, setUserData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-  });
+  const [userData, setUserData] = useState({ name: '', email: '', phone: ''});
   const [targetNumber, setTargetNumber] = useState(0);
 
   const HandleRegister = (data, ifInvalid) => {

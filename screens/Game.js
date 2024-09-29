@@ -1,31 +1,32 @@
-import { StyleSheet, Text, View, SafeAreaView, Button, TextInput} from 'react-native'
-import React, { useState, useEffect } from 'react'
+import { StyleSheet, Text, View, SafeAreaView, Button, TextInput, Alert, Image} from 'react-native'
+import React, { useState } from 'react'
 import GameCard from '../components/GameCard'
 import { LinearGradient } from 'expo-linear-gradient'
 
 export default function Game({lastNumber, targetNumber}) {
-    // start, guess, fail, correct, over
+    // start, guess, wrong, correct, over
     const [gameState, setGameState] = useState("start")
 
-    const [guessedNumber, setGuessedNumber] = useState(0)
+    const [guessedNumber, setGuessedNumber] = useState(60)
 
-    const [secondsLeft, setSecondsLeft] = useState(60)
+    const [secondsLeft, setSecondsLeft] = useState(null)
     const [timer, setTimer] = useState(null)
     const [attemptsLeft, setAttemptsLeft] = useState(4)
-
 
     const handleStart = () => {
         setGameState("guess")
         setSecondsLeft(60)
-
+        console.log({targetNumber});
         const interval = setInterval(() => {
             setSecondsLeft((prevTime) => {
               if (prevTime <= 1) {
-                clearInterval(interval);
-                setGameState("over")
-                return 0;
+                clearInterval(interval)
+                if (gameState === "guess"){
+                    setGameState("over")
+                }
+                return null
               }
-              return prevTime - 1;
+              return prevTime - 1
             });
           }, 1000);
       
@@ -37,9 +38,26 @@ export default function Game({lastNumber, targetNumber}) {
     }
     
     const handleSubmit = () => {
-        if (guessedNumber === targetNumber) {
+        const submittedNumber = parseInt(guessedNumber);
+        const parsedLastNumber = parseInt(lastNumber);
+
+        setAttemptsLeft(attempts => attempts-1)
+        if (isNaN(submittedNumber) 
+            || submittedNumber < 1 
+            || submittedNumber > 100 
+            || (submittedNumber%parsedLastNumber) !== 0) {
+            Alert.alert('Invalid input', 'Please enter a number between 1 and 100 that is mutiply of ' + lastNumber)
+        } else if (submittedNumber === targetNumber) {
             setGameState('correct')
+        } else if (attemptsLeft === 1) {
+            setGameState('over')
+        } else {
+            setGameState('wrong')
         }
+    }
+
+    const handleTryAgain = () => {
+        setGameState('guess')
     }
 
     return (
@@ -59,7 +77,8 @@ export default function Game({lastNumber, targetNumber}) {
                             <Text style={styles.cardText}>You have 4 chances in 60s</Text>
                             <Button title='START' onPress={handleStart}></Button>  
                         </GameCard>
-                    </View> : null}
+                    </View> 
+                : null}
 
                 {gameState === "guess" ? 
                     <View style={styles.cardContainer}>
@@ -71,26 +90,46 @@ export default function Game({lastNumber, targetNumber}) {
                                 value={guessedNumber}
                                 onChangeText={handleInputNumber}
                             />
-                            <Text style={styles.cardText}>{secondsLeft}</Text>
+                            <Text style={styles.cardText}>Attempts Left: {attemptsLeft}</Text>
+                            <Text style={styles.cardText}>Timer: {secondsLeft}</Text>
                             <Button title='USE A HINT'></Button>
                             <Button title='SUBMIT GUESS' onPress={handleSubmit}></Button>  
                         </GameCard>
-                    </View> : null}
+                    </View> 
+                : null}
+                
+                {gameState === "wrong" ? 
+                    <View style={styles.cardContainer}>
+                        <GameCard>
+                            <Text style={styles.cardText}>You did not guess correct!</Text>
+                            <Text style={styles.cardText}>You should guess {(guessedNumber < targetNumber) ? "higher" : "lower"}</Text>
+                            <Button title='TRY AGAIN' onPress={handleTryAgain}></Button>
+                            <Button title='END THE GAME'></Button>
+                        </GameCard>
+                    </View> 
+                : null}
+
+                {gameState === "correct" ? 
+                    <View style={styles.cardContainer}>
+                        <GameCard>
+                            <Text style={styles.cardText}>Your guessed correct!</Text>
+                            <Text style={styles.cardText}>Attempts used: {4 - attemptsLeft}</Text>
+                            <Image style={styles.image} source={{ uri: "https://picsum.photos/id/"+targetNumber+"/100/100"}}></Image>
+                            <Button title='NEW GAME'></Button>
+                        </GameCard>
+                    </View> 
+                : null}
             
                 {gameState === "over" ? 
                     <View style={styles.cardContainer}>
                         <GameCard>
                             <Text style={styles.cardText}>The game is over!</Text>
-                            <TextInput
-                                style={styles.guessInput}
-                                keyboardType='defualt' 
-                                value={guessedNumber}
-                                onChangeText={handleInputNumber}
-                            />
-                            <Text style={styles.cardText}>You are out of {!secondsLeft ? 'time' : 'attempts'}</Text>
-                            <Button title='NEW GAME'></Button>  
+                            <Text style={styles.cardText}>You are out of {!attemptsLeft ? 'attempts' : 'time'}</Text>
+                            <Button title='NEW GAME'></Button>
                         </GameCard>
-                    </View> : null}
+                    </View> 
+                : null}
+
 
             </SafeAreaView>
         </LinearGradient>
@@ -115,5 +154,16 @@ const styles = StyleSheet.create({
     },
     cardText: {
         marginVertical: 10,
+    },
+    guessInput: {
+        fontSize: 15,
+        padding: 5,
+        color: 'purple',
+        borderBottomWidth: 2,
+        borderBottomColor: 'purple',
+    },
+    image: {
+        width: 100,
+        height: 100,
     }
 })
