@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, Modal, Button } from 'react-native'
 import React from 'react'
 import { LinearGradient } from 'expo-linear-gradient';
 
-export default function Confirm({userData, goBackHeadler}) {
+export default function Confirm({userData, goBackHeadler, continueHeadler}) {
   return (
     <Modal animationType="slide" transparent={true}>
         <LinearGradient
@@ -18,7 +18,7 @@ export default function Confirm({userData, goBackHeadler}) {
                     <Text>If it is not correct, please go back and edit them</Text>
                     <View style={styles.buttonContainer}>
                         <Button title="GO BACK" color="red" onPress={goBackHeadler}/>
-                        <Button title="CONTINUE" color="blue"/>
+                        <Button title="CONTINUE" color="blue" onPress={continueHeadler}/>
                     </View>
                 </View>
             </View>

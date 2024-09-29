@@ -1,9 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, Alert } from 'react-native';
 import { useState } from 'react'
 import Start from './screens/Start';
 import Confirm from './screens/Confirm';
-
+import Game from './screens/Game';
 
 
 export default function App() {
@@ -16,24 +16,44 @@ export default function App() {
     phone: '',
   });
 
-  const register = (data) => {
-    // setConfirmVisibility(true)
-    setCurrentScreen('Confirm')
-    setUserData(data)
+  const HandleRegister = (data, ifInvalid) => {
+    if (ifInvalid) {
+      Alert.alert('Invalid input', 'Some information you entered are invalid or empty');
+    } else {
+      setCurrentScreen('Confirm')
+      setUserData(data)
+    }
   }
 
-  const goBack = () => {
+  const HandlegoBack = () => {
     setCurrentScreen('Start')
   }
 
+  const HandleContinue = () => {
+    setCurrentScreen('Game')
+  }
+
+
   return (
     <View style={styles.container}>
-      {currentScreen == 'Start' || currentScreen == 'Confirm' ? <Start registerPressed={register}></Start> : null}
+      {currentScreen == 'Start' || currentScreen == 'Confirm' ?
+        <Start registerPressed={HandleRegister}>
+        </Start> 
+        : null
+      }
       {currentScreen == 'Confirm' ? 
         <Confirm 
           userData={userData} 
-          goBackHeadler={goBack}>
-        </Confirm> : null
+          goBackHeadler={HandlegoBack}
+          continueHeadler={HandleContinue}
+        >
+        </Confirm> 
+        : null
+      }
+      {currentScreen == 'Game' ? 
+        <Game>
+        </Game> 
+        : null
       }
     </View>
 
