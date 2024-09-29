@@ -6,24 +6,21 @@ import { LinearGradient } from 'expo-linear-gradient'
 export default function Game({lastNumber, targetNumber}) {
     // start, guess, wrong, correct, over
     const [gameState, setGameState] = useState("start")
-
-    const [guessedNumber, setGuessedNumber] = useState(60)
-
+    const [guessedNumber, setGuessedNumber] = useState(0)
     const [secondsLeft, setSecondsLeft] = useState(null)
     const [timer, setTimer] = useState(null)
     const [attemptsLeft, setAttemptsLeft] = useState(4)
+    const [hint, setHint] = useState("")
 
     const handleStart = () => {
-        setGameState("guess")
+        setGameState((state) => "guess")
         setSecondsLeft(60)
         console.log({targetNumber});
         const interval = setInterval(() => {
             setSecondsLeft((prevTime) => {
               if (prevTime <= 1) {
                 clearInterval(interval)
-                if (gameState === "guess"){
-                    setGameState("over")
-                }
+                setGameState("over")
                 return null
               }
               return prevTime - 1
@@ -36,21 +33,35 @@ export default function Game({lastNumber, targetNumber}) {
     const handleInputNumber = (number) => {
         setGuessedNumber(number)
     }
+
+    const handleHint = () => {
+        const parsedTargetNumber = parseInt(targetNumber)
+        if (parsedTargetNumber >= 50) {
+            setHint("The number is between 50 and 100")
+        } else {
+            setHint("The number is between 1 and 49")
+        }
+    }
     
     const handleSubmit = () => {
         const submittedNumber = parseInt(guessedNumber);
         const parsedLastNumber = parseInt(lastNumber);
-
+        console.log(guessedNumber)
+        console.log(submittedNumber)
+        console.log(parsedLastNumber)
+        console.log(submittedNumber%parsedLastNumber)
         setAttemptsLeft(attempts => attempts-1)
-        if (isNaN(submittedNumber) 
+        if (submittedNumber === targetNumber) {
+            clearInterval(timer)           
+            setGameState('correct')
+        } else if (attemptsLeft === 1) {
+            clearInterval(timer)
+            setGameState('over')
+        } else if (isNaN(submittedNumber) 
             || submittedNumber < 1 
             || submittedNumber > 100 
             || (submittedNumber%parsedLastNumber) !== 0) {
             Alert.alert('Invalid input', 'Please enter a number between 1 and 100 that is mutiply of ' + lastNumber)
-        } else if (submittedNumber === targetNumber) {
-            setGameState('correct')
-        } else if (attemptsLeft === 1) {
-            setGameState('over')
         } else {
             setGameState('wrong')
         }
@@ -90,9 +101,10 @@ export default function Game({lastNumber, targetNumber}) {
                                 value={guessedNumber}
                                 onChangeText={handleInputNumber}
                             />
+                            {hint ? <Text>{hint}</Text> : null}
                             <Text style={styles.cardText}>Attempts Left: {attemptsLeft}</Text>
                             <Text style={styles.cardText}>Timer: {secondsLeft}</Text>
-                            <Button title='USE A HINT'></Button>
+                            <Button title='USE A HINT' onPress={handleHint}></Button>
                             <Button title='SUBMIT GUESS' onPress={handleSubmit}></Button>  
                         </GameCard>
                     </View> 
@@ -103,7 +115,11 @@ export default function Game({lastNumber, targetNumber}) {
                         <GameCard>
                             <Text style={styles.cardText}>You did not guess correct!</Text>
                             <Text style={styles.cardText}>You should guess {(guessedNumber < targetNumber) ? "higher" : "lower"}</Text>
-                            <Button title='TRY AGAIN' onPress={handleTryAgain}></Button>
+                            <Button 
+                                title='TRY AGAIN' 
+                                onPress={handleTryAgain} 
+                                disabled={hint ? true : false}>
+                            </Button>
                             <Button title='END THE GAME'></Button>
                         </GameCard>
                     </View> 

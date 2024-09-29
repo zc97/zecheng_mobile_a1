@@ -21,7 +21,7 @@ export default function App() {
     }
   }
 
-  const HandlegoBack = () => {
+  const HandleGoBack = () => {
     setCurrentScreen('Start')
   }
 
@@ -42,7 +42,7 @@ export default function App() {
       {currentScreen == 'Confirm' ? 
         <Confirm 
           userData={userData} 
-          goBackHeadler={HandlegoBack}
+          goBackHeadler={HandleGoBack}
           continueHeadler={HandleContinue}
         >
         </Confirm> 
