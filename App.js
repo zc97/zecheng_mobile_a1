@@ -7,18 +7,31 @@ import Confirm from './screens/Confirm';
 
 
 export default function App() {
+  const [currentScreen, setCurrentScreen] = useState('Start');
   const [confirmVisibility, setConfirmVisibility] = useState(false);
-  const [comfirmedName, setComfirmedName] = useState("");
 
-  const register = (name) => {
+  const [userData, setUserData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+  });
+
+  const register = (data) => {
     setConfirmVisibility(true)
-    setComfirmedName(name)
+    setUserData(data);
+  }
+
+  const goBack = () => {
+    setConfirmVisibility(false)
   }
 
   return (
     <View style={styles.container}>
-      <Start registerPressed={register}></Start>
-      <Confirm name={comfirmedName} confirmVisibility={confirmVisibility}></Confirm>
+      {currentScreen == 'Start' ? <Start registerPressed={register}></Start> : null}
+      <Confirm 
+        userData={userData} 
+        confirmVisibility={confirmVisibility} 
+        goBackHeadler={goBack}/>
     </View>
 
   );
