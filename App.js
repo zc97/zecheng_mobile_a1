@@ -15,6 +15,7 @@ export default function App() {
     email: '',
     phone: '',
   });
+  const [targetNumber, setTargetNumber] = useState(0);
 
   const HandleRegister = (data, ifInvalid) => {
     if (ifInvalid) {
@@ -31,6 +32,8 @@ export default function App() {
 
   const HandleContinue = () => {
     setCurrentScreen('Game')
+    setTargetNumber(Math.floor(Math.random() * 12) * parseInt(userData.phone[9]))
+    // console.log(Math.floor(Math.random() * 12) * parseInt(userData.phone[9]))
   }
 
 
@@ -52,7 +55,8 @@ export default function App() {
       }
       {currentScreen == 'Game' ? 
         <Game 
-          number = {userData.phone[9]}
+          lastNumber = {parseInt(userData.phone[9])}
+          targetNumber={targetNumber}
         >
         </Game> 
         : null
