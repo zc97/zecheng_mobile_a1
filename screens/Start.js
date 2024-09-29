@@ -17,6 +17,7 @@ export default function Start({registerPressed}) {
 
   const [isNotARobot, setIsNotARobot] = useState(false);
 
+  const isRegisterDisabled = (!isNotARobot || phoneError || nameError || emailError)
 
   const handleInputName = (changedName) => {
     setName(changedName);
@@ -117,6 +118,7 @@ export default function Start({registerPressed}) {
                 onPress={() =>{
                   registerPressed({ name, email, phone });
                 }}
+                disabled = {isRegisterDisabled}
               />
             </View>
           </View>
