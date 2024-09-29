@@ -17,21 +17,24 @@ export default function App() {
   });
 
   const register = (data) => {
-    setConfirmVisibility(true)
-    setUserData(data);
+    // setConfirmVisibility(true)
+    setCurrentScreen('Confirm')
+    setUserData(data)
   }
 
   const goBack = () => {
-    setConfirmVisibility(false)
+    setCurrentScreen('Start')
   }
 
   return (
     <View style={styles.container}>
-      {currentScreen == 'Start' ? <Start registerPressed={register}></Start> : null}
-      <Confirm 
-        userData={userData} 
-        confirmVisibility={confirmVisibility} 
-        goBackHeadler={goBack}/>
+      {currentScreen == 'Start' || currentScreen == 'Confirm' ? <Start registerPressed={register}></Start> : null}
+      {currentScreen == 'Confirm' ? 
+        <Confirm 
+          userData={userData} 
+          goBackHeadler={goBack}>
+        </Confirm> : null
+      }
     </View>
 
   );

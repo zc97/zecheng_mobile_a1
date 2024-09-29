@@ -2,11 +2,9 @@ import { StyleSheet, Text, View, Modal, Button } from 'react-native'
 import React from 'react'
 import { LinearGradient } from 'expo-linear-gradient';
 
-
-export default function Confirm({userData, confirmVisibility, goBackHeadler}) {
-
+export default function Confirm({userData, goBackHeadler}) {
   return (
-    <Modal visible={confirmVisibility} animationType="slide" transparent={true}>
+    <Modal animationType="slide" transparent={true}>
         <LinearGradient
             colors={['rgba(0,0,0,0.2)', 'rgba(0,0,0,0.8)']}
             style={styles.gradientContainer}
