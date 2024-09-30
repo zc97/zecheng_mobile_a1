@@ -4,6 +4,7 @@ import Checkbox from 'expo-checkbox';
 import { LinearGradient } from 'expo-linear-gradient';
 import colors from '../styles/colors';
 import GameButton from '../components/GameButton';
+import GradientBackground from '../components/GradientBackground';
 
 export default function Start({ registerPressed, userData }) {
     const [name, setName] = useState(userData.name || "");
@@ -57,10 +58,7 @@ export default function Start({ registerPressed, userData }) {
     }
 
     return (
-        <LinearGradient
-            colors={['#6495ed', '#4b0082']}
-            style={styles.gradientContainer}
-        >
+        <GradientBackground>
             <SafeAreaView style={styles.container}>
                 <View style={styles.headerContainer}>
                     <Text style={styles.header}>Welcome</Text>
@@ -124,14 +122,11 @@ export default function Start({ registerPressed, userData }) {
                     </View>
                 </View>
             </SafeAreaView>
-        </LinearGradient>
+        </GradientBackground>
     )
 }
 
 const styles = StyleSheet.create({
-    gradientContainer: {
-        flex: 1,
-    },
     container: {
         flex: 1,
         alignItems: 'center',

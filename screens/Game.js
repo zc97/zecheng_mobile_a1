@@ -2,6 +2,8 @@ import { StyleSheet, Text, View, SafeAreaView, Button, TextInput, Alert, Image} 
 import React, { useState } from 'react'
 import GameCard from '../components/GameCard'
 import { LinearGradient } from 'expo-linear-gradient'
+import GameButton from '../components/GameButton'
+import GradientBackground from '../components/GradientBackground'
 
 export default function Game({lastNumber, targetNumber, restartHandler}) {
     // start, guess, wrong, correct, over
@@ -68,13 +70,10 @@ export default function Game({lastNumber, targetNumber, restartHandler}) {
     }
 
     return (
-        <LinearGradient
-            colors={['#6495ed', '#4b0082']}
-            style={styles.gradientContainer}
-        >
+        <GradientBackground>
             <SafeAreaView style={styles.gameContainer}>
                 <View style={styles.buttonContainer}>
-                    <Button title='RESTART' color='blue' onPress={restartHandler}/>
+                    <GameButton title='RESTART' onPressHandler={restartHandler}/>
                 </View>
 
                 {gameState === "start" ? 
@@ -82,7 +81,7 @@ export default function Game({lastNumber, targetNumber, restartHandler}) {
                         <GameCard>
                             <Text style={styles.cardText}>Guess a number between 1 & 100 that is multiply of {lastNumber}</Text>
                             <Text style={styles.cardText}>You have 4 chances in 60s</Text>
-                            <Button title='START' onPress={handleStart}></Button>  
+                            <GameButton title='START' onPressHandler={handleStart}/>
                         </GameCard>
                     </View>
                 : null}
@@ -100,11 +99,11 @@ export default function Game({lastNumber, targetNumber, restartHandler}) {
                             {hint ? <Text>{hint}</Text> : null}
                             <Text style={styles.cardText}>Attempts Left: {attemptsLeft}</Text>
                             <Text style={styles.cardText}>Timer: {secondsLeft}</Text>
-                            <Button 
+                            <GameButton 
                                 title='USE A HINT' 
-                                onPress={handleHint} 
+                                onPressHandler={handleHint} 
                                 disabled={hint ? true : false}/>
-                            <Button title='SUBMIT GUESS' onPress={handleSubmit}></Button>  
+                            <GameButton title='SUBMIT GUESS' onPressHandler={handleSubmit}/>
                         </GameCard>
                     </View> 
                 : null}
@@ -114,9 +113,8 @@ export default function Game({lastNumber, targetNumber, restartHandler}) {
                         <GameCard>
                             <Text style={styles.cardText}>You did not guess correct!</Text>
                             <Text style={styles.cardText}>You should guess {(guessedNumber < targetNumber) ? "higher" : "lower"}</Text>
-                            <Button title='TRY AGAIN' onPress={handleTryAgain}>
-                            </Button>
-                            <Button title='END THE GAME' onPress={restartHandler}></Button>
+                            <GameButton title='TRY AGAIN' onPressHandler={handleTryAgain}/>
+                            <GameButton title='END THE GAME' onPressHandler={restartHandler}/>
                         </GameCard>
                     </View> 
                 : null}
@@ -127,7 +125,7 @@ export default function Game({lastNumber, targetNumber, restartHandler}) {
                             <Text style={styles.cardText}>Your guessed correct!</Text>
                             <Text style={styles.cardText}>Attempts used: {4 - attemptsLeft}</Text>
                             <Image style={styles.image} source={{ uri: "https://picsum.photos/id/"+targetNumber+"/100/100"}}></Image>
-                            <Button title='NEW GAME' onPress={restartHandler}></Button>
+                            <GameButton title='NEW GAME' onPressHandler={restartHandler}/>
                         </GameCard>
                     </View> 
                 : null}
@@ -138,21 +136,18 @@ export default function Game({lastNumber, targetNumber, restartHandler}) {
                             <Text style={styles.cardText}>The game is over!</Text>
                             <Text style={styles.cardText}>You are out of {!attemptsLeft ? 'attempts' : 'time'}</Text>
                             <Image style={styles.image} source={require('../assets/unamused-face.png')}></Image>
-                            <Button title='NEW GAME' onPress={restartHandler}></Button>
+                            <GameButton title='NEW GAME' onPressHandler={restartHandler}/>
                         </GameCard>
                     </View> 
                 : null}
 
 
             </SafeAreaView>
-        </LinearGradient>
+        </GradientBackground>
     )
 }
 
 const styles = StyleSheet.create({
-    gradientContainer:{
-        flex: 1,
-    },
     gameContainer:{
         flex: 1,
     },
