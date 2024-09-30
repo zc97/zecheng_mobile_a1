@@ -1,16 +1,26 @@
-import { StyleSheet, Text, View, SafeAreaView, Button, TextInput, Alert, Image} from 'react-native'
+import { StyleSheet, Text, View, SafeAreaView, Button, TextInput, Alert, Image } from 'react-native'
 import React, { useState } from 'react'
 import GameCard from '../components/GameCard'
 import { LinearGradient } from 'expo-linear-gradient'
 import GameButton from '../components/GameButton'
 import GradientBackground from '../components/GradientBackground'
+import colors from '../styles/colors'
 
-export default function Game({lastNumber, targetNumber, restartHandler}) {
-    // start, guess, wrong, correct, over
-    const [gameState, setGameState] = useState("start")
-    const [guessedNumber, setGuessedNumber] = useState(0)
-    const [secondsLeft, setSecondsLeft] = useState(null)
-    const [timer, setTimer] = useState(null)
+
+/*
+    Game screen which shows corresponding GameCards
+    in different stages of Game:
+    1. start: start stage with game rules
+    2. guess: guess stage for sumbitting guessed number
+    3. wrong: wrong submitted number stage with hint
+    4. correct: correct submitted number stage with image
+    5. over: game over stage with emoji
+*/
+export default function Game({ lastNumber, targetNumber, restartHandler }) {
+    const [gameState, setGameState] = useState("start")  // game stages
+    const [guessedNumber, setGuessedNumber] = useState(0) // user guessed number
+    const [secondsLeft, setSecondsLeft] = useState(null) // seconds left counter for timer
+    const [timer, setTimer] = useState(null) // stored timer ID
     const [attemptsLeft, setAttemptsLeft] = useState(4)
     const [hint, setHint] = useState("")
 
@@ -20,15 +30,15 @@ export default function Game({lastNumber, targetNumber, restartHandler}) {
         // console.log({targetNumber});
         const interval = setInterval(() => {
             setSecondsLeft((prevTime) => {
-              if (prevTime <= 1) {
-                clearInterval(interval)
-                setGameState("over")
-                return null
-              }
-              return prevTime - 1
+                if (prevTime <= 1) {
+                    clearInterval(interval)
+                    setGameState("over")
+                    return null
+                }
+                return prevTime - 1
             });
-          }, 1000);
-      
+        }, 1000);
+
         setTimer(interval);
     }
 
@@ -44,21 +54,21 @@ export default function Game({lastNumber, targetNumber, restartHandler}) {
             setHint("The number is between 1 and 49")
         }
     }
-    
+
     const handleSubmit = () => {
         const submittedNumber = parseInt(guessedNumber);
         const parsedLastNumber = parseInt(lastNumber);
-        setAttemptsLeft(attempts => attempts-1)
+        setAttemptsLeft(attempts => attempts - 1)
         if (submittedNumber === targetNumber) {
-            clearInterval(timer)           
+            clearInterval(timer)
             setGameState('correct')
         } else if (attemptsLeft === 1) {
             clearInterval(timer)
             setGameState('over')
-        } else if (isNaN(submittedNumber) 
-            || submittedNumber < 1 
-            || submittedNumber > 100 
-            || (submittedNumber%parsedLastNumber) !== 0) {
+        } else if (isNaN(submittedNumber)
+            || submittedNumber < 1
+            || submittedNumber > 100
+            || (submittedNumber % parsedLastNumber) !== 0) {
             Alert.alert('Invalid input', 'Please enter a number between 1 and 100 that is mutiply of ' + lastNumber)
         } else {
             setGameState('wrong')
@@ -73,73 +83,78 @@ export default function Game({lastNumber, targetNumber, restartHandler}) {
         <GradientBackground>
             <SafeAreaView style={styles.gameContainer}>
                 <View style={styles.buttonContainer}>
-                    <GameButton title='RESTART' onPressHandler={restartHandler}/>
+                    <GameButton title='RESTART' onPressHandler={restartHandler} />
                 </View>
 
-                {gameState === "start" ? 
+                {/* conditional rendering for start stage */}
+                {gameState === "start" ?
                     <View style={styles.cardContainer}>
                         <GameCard>
                             <Text style={styles.cardText}>Guess a number between 1 & 100 that is multiply of {lastNumber}</Text>
                             <Text style={styles.cardText}>You have 4 chances in 60s</Text>
-                            <GameButton title='START' onPressHandler={handleStart}/>
+                            <GameButton title='START' onPressHandler={handleStart} />
                         </GameCard>
                     </View>
-                : null}
+                    : null}
 
-                {gameState === "guess" ? 
+                {/* conditional rendering for guess stage */}
+                {gameState === "guess" ?
                     <View style={styles.cardContainer}>
                         <GameCard>
                             <Text style={styles.cardText}>Guess a number between 1 & 100 that is multiply of {lastNumber}</Text>
                             <TextInput
                                 style={styles.guessInput}
-                                keyboardType='defualt' 
+                                keyboardType='defualt'
                                 value={guessedNumber}
                                 onChangeText={handleInputNumber}
                             />
                             {hint ? <Text>{hint}</Text> : null}
                             <Text style={styles.cardText}>Attempts Left: {attemptsLeft}</Text>
                             <Text style={styles.cardText}>Timer: {secondsLeft}</Text>
-                            <GameButton 
-                                title='USE A HINT' 
-                                onPressHandler={handleHint} 
-                                disabled={hint ? true : false}/>
-                            <GameButton title='SUBMIT GUESS' onPressHandler={handleSubmit}/>
+                            <GameButton
+                                title='USE A HINT'
+                                onPressHandler={handleHint}
+                                disabled={hint ? true : false} />
+                            <GameButton title='SUBMIT GUESS' onPressHandler={handleSubmit} />
                         </GameCard>
-                    </View> 
-                : null}
-                
-                {gameState === "wrong" ? 
+                    </View>
+                    : null}
+
+                {/* conditional rendering for wrong answer stage */}
+                {gameState === "wrong" ?
                     <View style={styles.cardContainer}>
                         <GameCard>
                             <Text style={styles.cardText}>You did not guess correct!</Text>
                             <Text style={styles.cardText}>You should guess {(guessedNumber < targetNumber) ? "higher" : "lower"}</Text>
-                            <GameButton title='TRY AGAIN' onPressHandler={handleTryAgain}/>
-                            <GameButton title='END THE GAME' onPressHandler={restartHandler}/>
+                            <GameButton title='TRY AGAIN' onPressHandler={handleTryAgain} />
+                            <GameButton title='END THE GAME' onPressHandler={restartHandler} />
                         </GameCard>
-                    </View> 
-                : null}
+                    </View>
+                    : null}
 
-                {gameState === "correct" ? 
+                {/* conditional rendering for correct answer stage */}
+                {gameState === "correct" ?
                     <View style={styles.cardContainer}>
                         <GameCard>
                             <Text style={styles.cardText}>Your guessed correct!</Text>
                             <Text style={styles.cardText}>Attempts used: {4 - attemptsLeft}</Text>
-                            <Image style={styles.image} source={{ uri: "https://picsum.photos/id/"+targetNumber+"/100/100"}}></Image>
-                            <GameButton title='NEW GAME' onPressHandler={restartHandler}/>
+                            <Image style={styles.image} source={{ uri: "https://picsum.photos/id/" + targetNumber + "/100/100" }}></Image>
+                            <GameButton title='NEW GAME' onPressHandler={restartHandler} />
                         </GameCard>
-                    </View> 
-                : null}
-            
-                {gameState === "over" ? 
+                    </View>
+                    : null}
+
+                {/* conditional rendering for game over stage */}
+                {gameState === "over" ?
                     <View style={styles.cardContainer}>
                         <GameCard>
                             <Text style={styles.cardText}>The game is over!</Text>
                             <Text style={styles.cardText}>You are out of {!attemptsLeft ? 'attempts' : 'time'}</Text>
                             <Image style={styles.image} source={require('../assets/unamused-face.png')}></Image>
-                            <GameButton title='NEW GAME' onPressHandler={restartHandler}/>
+                            <GameButton title='NEW GAME' onPressHandler={restartHandler} />
                         </GameCard>
-                    </View> 
-                : null}
+                    </View>
+                    : null}
 
 
             </SafeAreaView>
@@ -147,16 +162,17 @@ export default function Game({lastNumber, targetNumber, restartHandler}) {
     )
 }
 
+// Game screen style
 const styles = StyleSheet.create({
-    gameContainer:{
+    gameContainer: {
         flex: 1,
     },
-    buttonContainer:{
+    buttonContainer: {
         flex: 1,
         alignItems: "flex-end",
         justifyContent: "flex-end",
     },
-    cardContainer:{
+    cardContainer: {
         flex: 2,
         alignItems: "center",
     },
@@ -166,7 +182,7 @@ const styles = StyleSheet.create({
     guessInput: {
         fontSize: 15,
         padding: 5,
-        color:  colors.text,
+        color: colors.text,
         borderBottomWidth: 2,
         borderBottomColor: colors.text,
     },

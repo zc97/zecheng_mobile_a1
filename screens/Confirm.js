@@ -5,13 +5,13 @@ import ComfirmCard from '../components/ComfirmCard';
 import GameButton from '../components/GameButton';
 import GradientBackground from '../components/GradientBackground';
 
+/* 
+    Comfirmation page with transparent gradient background 
+    which show a comfirmation card with information that user typed in
+*/
 export default function Confirm({ userData, goBackHeadler, continueHeadler }) {
     return (
         <Modal animationType="slide" transparent={true}>
-            {/* <LinearGradient
-                colors={['rgba(0,0,0,0.2)', 'rgba(0,0,0,0.8)']}
-                style={styles.gradientContainer}
-            > */}
             <GradientBackground
                 type='modal'
             >
@@ -28,12 +28,12 @@ export default function Confirm({ userData, goBackHeadler, continueHeadler }) {
                         </View>
                     </ComfirmCard>
                 </View>
-            {/* </LinearGradient> */}
             </GradientBackground>
         </Modal>
     )
 }
 
+// Comfirmation screen styles
 const styles = StyleSheet.create({
     gradientContainer: {
         flex: 1,

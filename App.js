@@ -5,12 +5,20 @@ import Start from './screens/Start';
 import Confirm from './screens/Confirm';
 import Game from './screens/Game';
 
-
+/*
+    Main App component, 3 primary screens are rendered for the game:
+    1. Start screen,
+    2. Comfirm screen,
+    3. Game screen.
+*/ 
 export default function App() {
+    // Conditional rendering according the current currentScreen name
     const [currentScreen, setCurrentScreen] = useState('Start');
+    // User's info
     const [userData, setUserData] = useState({ name: '', email: '', phone: '' });
-    const [targetNumber, setTargetNumber] = useState(null);
+    // Last phone digit and target number
     const [lastNumber, setLastNumber] = useState(null);
+    const [targetNumber, setTargetNumber] = useState(null);
     
 
     const handleRegister = (data, ifInvalid) => {
@@ -29,7 +37,7 @@ export default function App() {
 
     const handleContinue = () => {
         setCurrentScreen('Game')
-        setTargetNumber(Math.floor(Math.random() * Math.floor(100 / lastNumber)) * lastNumber)
+        setTargetNumber(Math.floor(Math.max(1, Math.random()) * Math.floor(100 / lastNumber)) * lastNumber)
     }
 
     const handleRestart = () => {
@@ -41,6 +49,7 @@ export default function App() {
 
     return (
         <View style={styles.container}>
+            {/* render Start screen if currentScreen is 'start' */}
             {currentScreen == 'Start' || currentScreen == 'Confirm' ?
                 <Start
                     registerPressed={handleRegister}
@@ -49,6 +58,8 @@ export default function App() {
                 </Start>
                 : null
             }
+
+            {/* render Confirm screen if currentScreen is 'confirm' */}
             {currentScreen == 'Confirm' ?
                 <Confirm
                     userData={userData}
@@ -58,6 +69,8 @@ export default function App() {
                 </Confirm>
                 : null
             }
+
+            {/* render Game screen if currentScreen is 'game' */}
             {currentScreen == 'Game' ?
                 <Game
                     lastNumber={lastNumber}
@@ -72,6 +85,7 @@ export default function App() {
     );
 }
 
+// based container styles
 const styles = StyleSheet.create({
     container: {
         flex: 1,

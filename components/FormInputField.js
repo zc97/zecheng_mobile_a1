@@ -2,6 +2,7 @@ import { StyleSheet, Text, View, TextInput } from 'react-native'
 import React from 'react'
 import colors from '../styles/colors'
 
+// FormInputField with "title", "input", "hint" structure for information input
 export default function FormInputField({title, value, InputHandler, errorMesaage}) {
     return (
         <View style={styles.inputFieldContainer}>
@@ -13,11 +14,13 @@ export default function FormInputField({title, value, InputHandler, errorMesaage
                 value={value}
                 onChangeText={InputHandler}
             />
-            {value.length ? <Text style={styles.hint}> {errorMesaage} </Text> : null}
+            {/* show hint with errorMesaage prop*/}
+            {value.length ? <Text style={styles.hint}> {errorMesaage} </Text> : null} 
         </View>
     )
 }
 
+// FormInputField basic styles
 const styles = StyleSheet.create({
     inputFieldContainer:{
         marginTop: 30,

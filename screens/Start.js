@@ -7,14 +7,18 @@ import GameButton from '../components/GameButton';
 import GradientBackground from '../components/GradientBackground';
 import FormInputField from '../components/FormInputField';
 
+/*
+    Start screen with allows users to input basic information
+    Vaild check will be applied to the inputs and selection
+*/
 export default function Start({ registerPressed, userData }) {
-    const [name, setName] = useState(userData.name || "");
+    const [name, setName] = useState(userData.name || ""); // empty if no pre-assigned user data
     const [nameError, setNameError] = useState("");
 
-    const [email, setEmail] = useState(userData.email || "");
+    const [email, setEmail] = useState(userData.email || ""); // empty if no pre-assigned user data
     const [emailError, setEmailError] = useState('');
 
-    const [phone, setPhone] = useState(userData.phone || "");
+    const [phone, setPhone] = useState(userData.phone || ""); // empty if no pre-assigned user data
     const [phoneError, setPhoneError] = useState('');
 
     const [isNotARobot, setIsNotARobot] = useState(false);
@@ -66,6 +70,7 @@ export default function Start({ registerPressed, userData }) {
                 </View>
                 <View style={styles.formContainer}>
                     <View style={styles.formCard}>
+                        {/* Name input field */}
                         <FormInputField
                             title='Name'
                             value={name}
@@ -73,13 +78,15 @@ export default function Start({ registerPressed, userData }) {
                             errorMesaage={nameError}
                         />
 
+                        {/* Email input field */}
                         <FormInputField
                             title='Email Address'
                             value={email}
                             InputHandler={handleInputEmail}
                             errorMesaage={emailError}
                         />
-        
+
+                        {/* Phone number input field */}
                         <FormInputField
                             title='Phone Number'
                             value={phone}
@@ -87,6 +94,7 @@ export default function Start({ registerPressed, userData }) {
                             errorMesaage={phoneError}
                         />
 
+                        {/* Not robot checkbox field */}
                         <View style={styles.checkboxContainer}>
                             <Checkbox
                                 style={styles.checkbox}
@@ -96,6 +104,7 @@ export default function Start({ registerPressed, userData }) {
                             <Text style={styles.checkText}>I am not a robot</Text>
                         </View>
 
+                        {/* Gamebuttons for reseting and registration*/}
                         <View style={styles.buttonContainer}>
                             <GameButton
                                 title='RESET'
@@ -118,6 +127,7 @@ export default function Start({ registerPressed, userData }) {
     )
 }
 
+// Start screen style
 const styles = StyleSheet.create({
     container: {
         flex: 1,

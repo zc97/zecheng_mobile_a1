@@ -2,6 +2,7 @@ import { StyleSheet, View } from 'react-native'
 import React from 'react'
 import colors from '../styles/colors'
 
+// ComfirmCard component for text-based information comfirmation
 export default function ComfirmCard({children}) {
   return (
     <View style={styles.confirmCard}>
@@ -10,6 +11,7 @@ export default function ComfirmCard({children}) {
   )
 }
 
+// ComfirmCard basic styles
 const styles = StyleSheet.create({
     confirmCard: {
         width: '85%',

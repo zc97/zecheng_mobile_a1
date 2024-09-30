@@ -2,6 +2,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import colors from '../styles/colors'
 
+// GameCard component with desire styles for re-using in the game stages
 export default function GameCard({ children }) {
   return (
     <View style={styles.card}>
@@ -10,6 +11,7 @@ export default function GameCard({ children }) {
   )
 }
 
+// GameCard basic styles
 const styles = StyleSheet.create({
     card:{
         backgroundColor: colors.cardColor,
