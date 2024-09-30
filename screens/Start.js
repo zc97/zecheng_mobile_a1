@@ -2,8 +2,8 @@ import { Text, StyleSheet, View, TextInput, SafeAreaView, Button } from 'react-n
 import React, { Component, useState } from 'react'
 import Checkbox from 'expo-checkbox';
 import { LinearGradient } from 'expo-linear-gradient';
+import colors from '../styles/colors';
 
-// function nameMessage() {}
 
 export default function Start({ registerPressed, userData }) {
     const [name, setName] = useState(userData.name || "");
@@ -62,7 +62,9 @@ export default function Start({ registerPressed, userData }) {
             style={styles.gradientContainer}
         >
             <SafeAreaView style={styles.container}>
-                <Text style={styles.header}>Welcome</Text>
+                <View style={styles.headerContainer}>
+                    <Text style={styles.header}>Welcome</Text>
+                </View>
                 <View style={styles.formContainer}>
                     <View style={styles.formCard}>
                         <Text style={styles.formText}>Name</Text>
@@ -136,19 +138,24 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
+        justifyContent: 'center',
+    },
+    headerContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     header: {
-        flex: 1,
         fontSize: 20,
-        color: '#5C5CFF',
+        color: colors.headerColor,
         fontWeight: 'bold',
     },
     formContainer: {
-        flex: 6,
+        flex: 3,
         width: '80%',
     },
     formCard: {
-        backgroundColor: 'gray',
+        backgroundColor: colors.cardColor,
         borderRadius: 10,
         padding: 15,
         marginVertical: 10,
@@ -162,14 +169,14 @@ const styles = StyleSheet.create({
     formText: {
         fontSize: 15,
         marginVertical: 25,
-        color: 'purple',
+        color: colors.text,
     },
     formTextInput: {
         fontSize: 15,
         padding: 5,
-        color: 'purple',
+        color: colors.text,
         borderBottomWidth: 2,
-        borderBottomColor: 'purple',
+        borderBottomColor: colors.text,
     },
     checkboxContainer: {
         flexDirection: 'row',

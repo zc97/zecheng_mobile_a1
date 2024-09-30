@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View, Modal, Button } from 'react-native'
 import React from 'react'
 import { LinearGradient } from 'expo-linear-gradient';
+import ComfirmCard from '../components/ComfirmCard';
 
 export default function Confirm({ userData, goBackHeadler, continueHeadler }) {
     return (
@@ -10,7 +11,7 @@ export default function Confirm({ userData, goBackHeadler, continueHeadler }) {
                 style={styles.gradientContainer}
             >
                 <View style={styles.container}>
-                    <View style={styles.modalContainer}>
+                    <ComfirmCard>
                         <Text>Hello {userData.name}</Text>
                         <Text>Here is the information you entered:</Text>
                         <Text>{userData.email}</Text>
@@ -20,7 +21,7 @@ export default function Confirm({ userData, goBackHeadler, continueHeadler }) {
                             <Button title="GO BACK" color="red" onPress={goBackHeadler} />
                             <Button title="CONTINUE" color="blue" onPress={continueHeadler} />
                         </View>
-                    </View>
+                    </ComfirmCard>
                 </View>
             </LinearGradient>
         </Modal>
@@ -36,12 +37,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
-    modalContainer: {
-        width: '85%',
-        backgroundColor: 'gray',
-        borderRadius: 5,
-        padding: 20
-    },
+    // confirmCardContainer: {
+    //     width: '85%',
+    //     backgroundColor: 'gray',
+    //     borderRadius: 5,
+    //     padding: 20
+    // },
     buttonContainer: {
         flexDirection: "row",
         justifyContent: "space-evenly",
