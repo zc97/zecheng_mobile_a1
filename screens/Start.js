@@ -5,14 +5,14 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 // function nameMessage() {}
 
-export default function Start({registerPressed}) {
-  const [name, setName] = useState("");
+export default function Start({registerPressed, userData}) {
+  const [name, setName] = useState(userData.name || "");
   const [nameError, setNameError] = useState("");
 
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState(userData.email || "");
   const [emailError, setEmailError] = useState('');
 
-  const [phone, setPhone] = useState("");
+  const [phone, setPhone] = useState(userData.phone || "");
   const [phoneError, setPhoneError] = useState('');
 
   const [isNotARobot, setIsNotARobot] = useState(false);

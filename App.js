@@ -8,11 +8,10 @@ import Game from './screens/Game';
 
 export default function App() {
   const [currentScreen, setCurrentScreen] = useState('Start');
-  const [confirmVisibility, setConfirmVisibility] = useState(false);
   const [userData, setUserData] = useState({ name: '', email: '', phone: ''});
-  const [targetNumber, setTargetNumber] = useState(0);
+  const [targetNumber, setTargetNumber] = useState(null);
 
-  const HandleRegister = (data, ifInvalid) => {
+  const handleRegister = (data, ifInvalid) => {
     if (ifInvalid) {
       Alert.alert('Invalid input', 'Some information you entered are invalid or empty');
     } else {
@@ -21,29 +20,38 @@ export default function App() {
     }
   }
 
-  const HandleGoBack = () => {
+  const handleGoBack = () => {
     setCurrentScreen('Start')
   }
 
-  const HandleContinue = () => {
+  const handleContinue = () => {
     setCurrentScreen('Game')
     setTargetNumber(Math.floor(Math.random() * 12) * parseInt(userData.phone[9]))
     // console.log(Math.floor(Math.random() * 12) * parseInt(userData.phone[9]))
+  }
+
+  const handleRestart = () => {
+    setUserData({ name: '', email: '', phone: ''})
+    setTargetNumber(null)
+    setCurrentScreen('Start')
   }
 
 
   return (
     <View style={styles.container}>
       {currentScreen == 'Start' || currentScreen == 'Confirm' ?
-        <Start registerPressed={HandleRegister}>
+        <Start 
+          registerPressed={handleRegister}
+          userData={userData}
+        >
         </Start> 
         : null
       }
       {currentScreen == 'Confirm' ? 
         <Confirm 
           userData={userData} 
-          goBackHeadler={HandleGoBack}
-          continueHeadler={HandleContinue}
+          goBackHeadler={handleGoBack}
+          continueHeadler={handleContinue}
         >
         </Confirm> 
         : null
@@ -52,6 +60,7 @@ export default function App() {
         <Game 
           lastNumber = {parseInt(userData.phone[9])}
           targetNumber={targetNumber}
+          restartHandler={handleRestart}
         >
         </Game> 
         : null

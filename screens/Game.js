@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import GameCard from '../components/GameCard'
 import { LinearGradient } from 'expo-linear-gradient'
 
-export default function Game({lastNumber, targetNumber}) {
+export default function Game({lastNumber, targetNumber, restartHandler}) {
     // start, guess, wrong, correct, over
     const [gameState, setGameState] = useState("start")
     const [guessedNumber, setGuessedNumber] = useState(0)
@@ -46,10 +46,6 @@ export default function Game({lastNumber, targetNumber}) {
     const handleSubmit = () => {
         const submittedNumber = parseInt(guessedNumber);
         const parsedLastNumber = parseInt(lastNumber);
-        console.log(guessedNumber)
-        console.log(submittedNumber)
-        console.log(parsedLastNumber)
-        console.log(submittedNumber%parsedLastNumber)
         setAttemptsLeft(attempts => attempts-1)
         if (submittedNumber === targetNumber) {
             clearInterval(timer)           
@@ -78,7 +74,7 @@ export default function Game({lastNumber, targetNumber}) {
         >
             <SafeAreaView style={styles.gameContainer}>
                 <View style={styles.buttonContainer}>
-                    <Button title='RESTART' color='blue'/>
+                    <Button title='RESTART' color='blue' onPress={restartHandler}/>
                 </View>
 
                 {gameState === "start" ? 
@@ -88,7 +84,7 @@ export default function Game({lastNumber, targetNumber}) {
                             <Text style={styles.cardText}>You have 4 chances in 60s</Text>
                             <Button title='START' onPress={handleStart}></Button>  
                         </GameCard>
-                    </View> 
+                    </View>
                 : null}
 
                 {gameState === "guess" ? 
@@ -104,7 +100,10 @@ export default function Game({lastNumber, targetNumber}) {
                             {hint ? <Text>{hint}</Text> : null}
                             <Text style={styles.cardText}>Attempts Left: {attemptsLeft}</Text>
                             <Text style={styles.cardText}>Timer: {secondsLeft}</Text>
-                            <Button title='USE A HINT' onPress={handleHint}></Button>
+                            <Button 
+                                title='USE A HINT' 
+                                onPress={handleHint} 
+                                disabled={hint ? true : false}/>
                             <Button title='SUBMIT GUESS' onPress={handleSubmit}></Button>  
                         </GameCard>
                     </View> 
@@ -115,12 +114,9 @@ export default function Game({lastNumber, targetNumber}) {
                         <GameCard>
                             <Text style={styles.cardText}>You did not guess correct!</Text>
                             <Text style={styles.cardText}>You should guess {(guessedNumber < targetNumber) ? "higher" : "lower"}</Text>
-                            <Button 
-                                title='TRY AGAIN' 
-                                onPress={handleTryAgain} 
-                                disabled={hint ? true : false}>
+                            <Button title='TRY AGAIN' onPress={handleTryAgain}>
                             </Button>
-                            <Button title='END THE GAME'></Button>
+                            <Button title='END THE GAME' onPress={restartHandler}></Button>
                         </GameCard>
                     </View> 
                 : null}
@@ -131,7 +127,7 @@ export default function Game({lastNumber, targetNumber}) {
                             <Text style={styles.cardText}>Your guessed correct!</Text>
                             <Text style={styles.cardText}>Attempts used: {4 - attemptsLeft}</Text>
                             <Image style={styles.image} source={{ uri: "https://picsum.photos/id/"+targetNumber+"/100/100"}}></Image>
-                            <Button title='NEW GAME'></Button>
+                            <Button title='NEW GAME' onPress={restartHandler}></Button>
                         </GameCard>
                     </View> 
                 : null}
@@ -141,7 +137,8 @@ export default function Game({lastNumber, targetNumber}) {
                         <GameCard>
                             <Text style={styles.cardText}>The game is over!</Text>
                             <Text style={styles.cardText}>You are out of {!attemptsLeft ? 'attempts' : 'time'}</Text>
-                            <Button title='NEW GAME'></Button>
+                            <Image style={styles.image} source={require('../assets/unamused-face.png')}></Image>
+                            <Button title='NEW GAME' onPress={restartHandler}></Button>
                         </GameCard>
                     </View> 
                 : null}
@@ -181,5 +178,6 @@ const styles = StyleSheet.create({
     image: {
         width: 100,
         height: 100,
+        margin: 10,
     }
 })
