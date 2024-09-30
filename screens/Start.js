@@ -3,7 +3,7 @@ import React, { Component, useState } from 'react'
 import Checkbox from 'expo-checkbox';
 import { LinearGradient } from 'expo-linear-gradient';
 import colors from '../styles/colors';
-
+import GameButton from '../components/GameButton';
 
 export default function Start({ registerPressed, userData }) {
     const [name, setName] = useState(userData.name || "");
@@ -107,17 +107,14 @@ export default function Start({ registerPressed, userData }) {
                         </View>
 
                         <View style={styles.buttonContainer}>
-                            <Button
+                            <GameButton
                                 title='RESET'
-                                color='red'
-                                onPress={() => {
-                                    handleReset();
-                                }}
+                                type='alert'
+                                onPressHandler={handleReset}
                             />
-                            <Button
+                            <GameButton
                                 title='REGISTER'
-                                color='blue'
-                                onPress={() => {
+                                onPressHandler={() => {
                                     registerPressed({ name, email, phone },
                                         (nameError || emailError || phoneError || !name || !email || !phone));
                                 }}

@@ -2,6 +2,7 @@ import { StyleSheet, Text, View, Modal, Button } from 'react-native'
 import React from 'react'
 import { LinearGradient } from 'expo-linear-gradient';
 import ComfirmCard from '../components/ComfirmCard';
+import GameButton from '../components/GameButton';
 
 export default function Confirm({ userData, goBackHeadler, continueHeadler }) {
     return (
@@ -18,8 +19,8 @@ export default function Confirm({ userData, goBackHeadler, continueHeadler }) {
                         <Text>{userData.phone}</Text>
                         <Text>If it is not correct, please go back and edit them</Text>
                         <View style={styles.buttonContainer}>
-                            <Button title="GO BACK" color="red" onPress={goBackHeadler} />
-                            <Button title="CONTINUE" color="blue" onPress={continueHeadler} />
+                            <GameButton title="GO BACK" type="alert" onPressHandler={goBackHeadler}/>
+                            <GameButton title="CONTINUE" onPressHandler={continueHeadler}/>
                         </View>
                     </ComfirmCard>
                 </View>
@@ -37,12 +38,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
-    // confirmCardContainer: {
-    //     width: '85%',
-    //     backgroundColor: 'gray',
-    //     borderRadius: 5,
-    //     padding: 20
-    // },
     buttonContainer: {
         flexDirection: "row",
         justifyContent: "space-evenly",
