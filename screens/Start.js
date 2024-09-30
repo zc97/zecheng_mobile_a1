@@ -5,6 +5,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import colors from '../styles/colors';
 import GameButton from '../components/GameButton';
 import GradientBackground from '../components/GradientBackground';
+import FormInputField from '../components/FormInputField';
 
 export default function Start({ registerPressed, userData }) {
     const [name, setName] = useState(userData.name || "");
@@ -65,35 +66,26 @@ export default function Start({ registerPressed, userData }) {
                 </View>
                 <View style={styles.formContainer}>
                     <View style={styles.formCard}>
-                        <Text style={styles.formText}>Name</Text>
-                        <TextInput
-                            style={styles.formTextInput}
-                            placeholder='type your name'
-                            keyboardType='defualt'
+                        <FormInputField
+                            title='Name'
                             value={name}
-                            onChangeText={handleInputName}
+                            InputHandler={handleInputName}
+                            errorMesaage={nameError}
                         />
-                        {nameError.length ? <Text> {nameError} </Text> : null}
 
-                        <Text style={styles.formText}>Email Address</Text>
-                        <TextInput
-                            style={styles.formTextInput}
-                            placeholder='type your email'
-                            keyboardType='defualt'
+                        <FormInputField
+                            title='Email Address'
                             value={email}
-                            onChangeText={handleInputEmail}
+                            InputHandler={handleInputEmail}
+                            errorMesaage={emailError}
                         />
-                        {email.length ? <Text> {emailError} </Text> : null}
-
-                        <Text style={styles.formText}>Phone Number</Text>
-                        <TextInput
-                            style={styles.formTextInput}
-                            placeholder='type your phone number'
-                            keyboardType='defualt'
+        
+                        <FormInputField
+                            title='Phone Number'
                             value={phone}
-                            onChangeText={handleInputPhone}
+                            InputHandler={handleInputPhone}
+                            errorMesaage={phoneError}
                         />
-                        {phone.length ? <Text> {phoneError} </Text> : null}
 
                         <View style={styles.checkboxContainer}>
                             <Checkbox
@@ -158,18 +150,6 @@ const styles = StyleSheet.create({
         shadowRadius: 3.84,
         elevation: 5,
     },
-    formText: {
-        fontSize: 15,
-        marginVertical: 25,
-        color: colors.text,
-    },
-    formTextInput: {
-        fontSize: 15,
-        padding: 5,
-        color: colors.text,
-        borderBottomWidth: 2,
-        borderBottomColor: colors.text,
-    },
     checkboxContainer: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -181,6 +161,7 @@ const styles = StyleSheet.create({
     },
     checkText: {
         padding: 10,
+        color: colors.text,
     },
     buttonContainer: {
         flexDirection: 'row',
@@ -188,5 +169,4 @@ const styles = StyleSheet.create({
         justifyContent: 'space-evenly',
         marginVertical: 10,
     }
-
 })

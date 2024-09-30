@@ -17,7 +17,7 @@ export default function Game({lastNumber, targetNumber, restartHandler}) {
     const handleStart = () => {
         setGameState((state) => "guess")
         setSecondsLeft(60)
-        console.log({targetNumber});
+        // console.log({targetNumber});
         const interval = setInterval(() => {
             setSecondsLeft((prevTime) => {
               if (prevTime <= 1) {
@@ -166,9 +166,9 @@ const styles = StyleSheet.create({
     guessInput: {
         fontSize: 15,
         padding: 5,
-        color: 'purple',
+        color:  colors.text,
         borderBottomWidth: 2,
-        borderBottomColor: 'purple',
+        borderBottomColor: colors.text,
     },
     image: {
         width: 100,

@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
+import colors from '../styles/colors'
 
 export default function GameCard({ children }) {
   return (
@@ -11,7 +12,7 @@ export default function GameCard({ children }) {
 
 const styles = StyleSheet.create({
     card:{
-        backgroundColor: 'gray',
+        backgroundColor: colors.cardColor,
         alignItems: "center",
         borderRadius: 10,        
         padding: 20,            

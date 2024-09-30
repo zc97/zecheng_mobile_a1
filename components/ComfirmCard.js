@@ -1,5 +1,6 @@
 import { StyleSheet, View } from 'react-native'
 import React from 'react'
+import colors from '../styles/colors'
 
 export default function ComfirmCard({children}) {
   return (
@@ -12,7 +13,7 @@ export default function ComfirmCard({children}) {
 const styles = StyleSheet.create({
     confirmCard: {
         width: '85%',
-        backgroundColor: 'gray',
+        backgroundColor: colors.cardColor,
         borderRadius: 5,
         padding: 20,
         marginVertical: 20,      

@@ -1,7 +1,7 @@
 export default {
     text: 'purple',
     headerColor: '#5C5CFF', 
-    cardColor: 'gray',
+    cardColor: 'darkgrey',
     regularButtonColor: 'blue',
     alertButtonColor: 'red',
     gradientBackgroundColor1: '#6495ed',
