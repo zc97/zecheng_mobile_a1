@@ -79,10 +79,15 @@ export default function Game({ lastNumber, targetNumber, restartHandler }) {
         setGameState('guess')
     }
 
+    const handleEndGame = () => {
+        clearInterval(timer)
+        setGameState('over')
+    } 
+
     return (
         <GradientBackground>
             <SafeAreaView style={styles.gameContainer}>
-                <View style={styles.buttonContainer}>
+                <View style={styles.restartContainer}>
                     <GameButton title='RESTART' onPressHandler={restartHandler} />
                 </View>
 
@@ -127,7 +132,7 @@ export default function Game({ lastNumber, targetNumber, restartHandler }) {
                             <Text style={styles.cardText}>You did not guess correct!</Text>
                             <Text style={styles.cardText}>You should guess {(guessedNumber < targetNumber) ? "higher" : "lower"}</Text>
                             <GameButton title='TRY AGAIN' onPressHandler={handleTryAgain} />
-                            <GameButton title='END THE GAME' onPressHandler={restartHandler} />
+                            <GameButton title='END THE GAME' onPressHandler={handleEndGame} />
                         </GameCard>
                     </View>
                     : null}
@@ -149,7 +154,10 @@ export default function Game({ lastNumber, targetNumber, restartHandler }) {
                     <View style={styles.cardContainer}>
                         <GameCard>
                             <Text style={styles.cardText}>The game is over!</Text>
-                            <Text style={styles.cardText}>You are out of {!attemptsLeft ? 'attempts' : 'time'}</Text>
+                            {attemptsLeft && secondsLeft ?
+                                <Text>You ended the game</Text>
+                                : <Text style={styles.cardText}>You are out of {!attemptsLeft ? 'attempts' : 'time'}</Text>
+                            }
                             <Image style={styles.image} source={require('../assets/unamused-face.png')}></Image>
                             <GameButton title='NEW GAME' onPressHandler={restartHandler} />
                         </GameCard>
@@ -167,7 +175,7 @@ const styles = StyleSheet.create({
     gameContainer: {
         flex: 1,
     },
-    buttonContainer: {
+    restartContainer: {
         flex: 1,
         alignItems: "flex-end",
         justifyContent: "flex-end",
