@@ -35,9 +35,21 @@ export default function App() {
         setCurrentScreen('Start')
     }
 
+    // Random select of target number
+    const generateTargetNumber = (num) => {
+        // generate all multiples of 'num' between 1 and 100
+        const multiples = [];
+        for (let i = num; i <= 100; i += num) {
+          multiples.push(i);
+        }
+    
+        const randomIndex = Math.floor(Math.random() * multiples.length);
+        return multiples[randomIndex];
+      };
+
     const handleContinue = () => {
         setCurrentScreen('Game')
-        setTargetNumber(Math.floor(Math.max(1, Math.random()) * Math.floor(100 / lastNumber)) * lastNumber)
+        setTargetNumber(generateTargetNumber(lastNumber))
     }
 
     const handleRestart = () => {

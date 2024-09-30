@@ -27,7 +27,7 @@ export default function Game({ lastNumber, targetNumber, restartHandler }) {
     const handleStart = () => {
         setGameState((state) => "guess")
         setSecondsLeft(60)
-        // console.log({targetNumber});
+        console.log({targetNumber});
         const interval = setInterval(() => {
             setSecondsLeft((prevTime) => {
                 if (prevTime <= 1) {
